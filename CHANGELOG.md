@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.0.27] - 2026-05-30
+
+### English
+- Fix Cursor / Trae / Qoder / Factory click-to-jump raising the most-recently-used window instead of the one running the clicked session — now matches the workspace window by project folder (#199)
+- Install custom CLI hooks on SSH remote hosts too (claude / nested hook formats) — previously only the built-in CLIs were configured remotely (#192)
+
+### 中文
+- 修复 Cursor / Trae / Qoder / Factory 点击灵动岛跳到"最近用过的窗口"而不是正在对话的那个——现在按项目目录匹配对应 workspace 窗口 (#199)
+- SSH 远程主机也会安装自定义 CLI 的 hooks（claude / nested 格式）——此前远程只配置内置 CLI (#192)
+
 ## [v1.0.26] - 2026-05-30
 
 ### English
