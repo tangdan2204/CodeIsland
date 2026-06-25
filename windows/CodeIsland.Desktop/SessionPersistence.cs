@@ -35,7 +35,8 @@ public static class SessionPersistence
             yield break;
         }
         if (dto is null) yield break;
-        foreach (var item in dto)
+        var maxCount = Math.Clamp(WindowsSettings.Current.MaxVisibleSessions, 1, 20);
+        foreach (var item in dto.OrderByDescending(item => item.LastActivity).Take(maxCount))
         {
             var session = new SessionState(item.SessionId)
             {

@@ -75,6 +75,7 @@ public sealed class SessionStore
             byId[session.SessionId] = session;
             Sessions.Add(session);
         }
+        PruneVisibleSessions();
         SessionsChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -104,6 +105,7 @@ public sealed class SessionStore
         session.RefreshDerived();
         TerminalSessionIndex.Upsert(session);
         Reorder(session);
+        PruneVisibleSessions();
         SaveSessions();
         SoundManager.PlayForEvent(normalized);
         EventReceived?.Invoke(this, hookEvent);
@@ -292,5 +294,16 @@ public sealed class SessionStore
     {
         var index = Sessions.IndexOf(session);
         if (index > 0) Sessions.Move(index, 0);
+    }
+
+    private void PruneVisibleSessions()
+    {
+        var maxCount = Math.Clamp(WindowsSettings.Current.MaxVisibleSessions, 1, 20);
+        while (Sessions.Count > maxCount)
+        {
+            var removed = Sessions[^1];
+            Sessions.RemoveAt(Sessions.Count - 1);
+            byId.Remove(removed.SessionId);
+        }
     }
 }
