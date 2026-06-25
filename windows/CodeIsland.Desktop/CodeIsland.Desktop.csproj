@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>CodeIsland.Desktop</AssemblyName>
+    <ApplicationIcon>codeisland.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="codeisland.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="logo.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="mascot-codex.gif" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="mascot-claude.gif" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\docs\images\mascots\*.gif" Link="mascots\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Sources\CodeIsland\Resources\cli-icons\*.png" Link="cli-icons\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Sources\CodeIsland\Resources\8bit_*.wav" Link="sounds\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Sources\CodeIsland\Resources\codeisland-opencode.js" Link="Resources\codeisland-opencode.js" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Sources\CodeIsland\Resources\codeisland-pi.ts" Link="Resources\codeisland-pi.ts" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Sources\CodeIsland\Resources\codeisland-omp.ts" Link="Resources\codeisland-omp.ts" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\CodeIsland.Bridge\bin\Release\net8.0-windows\win-x64\publish\CodeIsland.Bridge.exe" Link="CodeIsland.Bridge.exe" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

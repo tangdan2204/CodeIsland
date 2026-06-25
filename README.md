@@ -2,152 +2,219 @@
   <img src="logo.png" width="48" height="48" alt="CodeIsland Logo" valign="middle">&nbsp;
   CodeIsland
 </h1>
+
 <p align="center">
-  <b>Real-time AI coding agent status panel for macOS Dynamic Island (Notch)</b><br>
-  <a href="#installation">Install</a> •
-  <a href="#features">Features</a> •
-  <a href="#supported-tools">Supported Tools</a> •
-  <a href="#build-from-source">Build</a><br>
-  English | <a href="README.zh-CN.md">简体中文</a>
+  <b>面向 AI 编程 Agent 的实时状态小岛，支持 macOS 刘海屏和 Windows 桌面右下角浮窗。</b><br>
+  <a href="#快速开始">快速开始</a> ·
+  <a href="#windows-版">Windows 版</a> ·
+  <a href="#macos-版">macOS 版</a> ·
+  <a href="#支持的工具">支持工具</a> ·
+  <a href="#从源码构建">构建</a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="docs/images/notch-panel.png" width="700" alt="CodeIsland Panel Preview">
+  <img src="docs/images/notch-panel.png" width="700" alt="CodeIsland 面板预览">
 </p>
 
-## What is CodeIsland?
+## CodeIsland 是什么
 
-CodeIsland lives in your MacBook's notch area and shows you what your AI coding agents are doing — in real time. No more switching windows to check if Claude is waiting for approval or if Codex finished its task.
+CodeIsland 用一个低干扰的小岛面板显示 AI 编程 Agent 的实时状态：当前会话、工具调用、审批请求、问题、完成通知和最近消息。它的目标是让你不用频繁切回终端，也能知道 Claude、Codex、Gemini、Cursor、Trae、OpenCode 等工具正在做什么。
 
-It connects to **13 AI coding tools** via Unix socket IPC, displaying session status, tool calls, permission requests, and more — all in a compact, pixel-art styled panel.
+项目最初是 macOS 刘海屏体验，现在仓库内也包含 Windows 版本。Windows 版使用 WPF、系统托盘和 named pipe bridge，把小岛默认放在右下角，避免占用台式机屏幕顶部。
 
-## Features
+## 当前状态
 
-- **Notch-native UI** — Expands from the MacBook notch, collapses when idle
-- **13 AI tools supported** — Claude Code, Codex, Gemini CLI, Cursor, Copilot, Trae/Traecli, Qoder, Factory, CodeBuddy, OpenCode, Kimi Code CLI, Cline, Pi / Oh My Pi
-- **Live status tracking** — See active sessions, tool calls, and AI responses in real time
-- **Permission management** — Approve/deny tool permissions directly from the panel
-- **Question answering** — Respond to agent questions without leaving your current app
-- **Pixel-art mascots** — Each AI tool has its own animated character
-- **One-click jump** — Click a session to jump to its terminal tab or IDE window
-- **Smart suppress** — Tab-level terminal detection: only suppresses notifications when you're looking at the specific session tab, not just the terminal app
-- **Sound effects** — Optional 8-bit sound notifications for session events
-- **Auto hook install** — Automatically configures hooks for all detected CLI tools, with auto-repair and version tracking
-- **iPhone & Apple Watch Buddy** — Mirror session status to Dynamic Island, Lock Screen, StandBy, and Apple Watch
-- **Bilingual UI** — English and Chinese, auto-detects system language
-- **Multi-display** — Works with external monitors, auto-detects notch displays
+- macOS 版：原始主版本，使用 Swift 和 Unix socket。
+- Windows 版：可日常试用的阶段性版本，已具备右下角小岛、托盘、设置页、hook 安装、named pipe bridge、completion 卡片、审批/问题面板和多 CLI 覆盖。
+- Windows 版还不是 macOS 版的 1:1 完整复刻。Windows Terminal 精确 tab/pane 跳转、Remote/Buddy/Companion/ESP32、全 CLI 端到端验收仍在继续补齐。
 
-## Supported Tools
+## 功能
 
-| | Tool | Events | Jump | Status |
-|:---:|------|--------|------|--------|
-| <img src="docs/images/mascots/claude.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/claude.png" width="16"> Claude Code | 13 | Terminal tab | Full |
-| <img src="docs/images/mascots/codex.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/codex.png" width="16"> Codex | 3 | Terminal | Basic |
-| <img src="docs/images/mascots/gemini.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/gemini.png" width="16"> Gemini CLI | 6 | Terminal | Full |
-| <img src="docs/images/mascots/cursor.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/cursor.png" width="16"> Cursor | 10 | IDE | Full |
-| <img src="docs/images/mascots/trae.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/traecli.png" width="16"> TraeCli | 10 | Terminal | Full |
-| <img src="docs/images/mascots/qoder.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/qoder.png" width="16"> Qoder | 10 | IDE | Full |
-| | <img src="Sources/CodeIsland/Resources/cli-icons/copilot.png" width="16"> Copilot | 6 | Terminal | Full |
-| <img src="docs/images/mascots/factory.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/factory.png" width="16"> Factory | 10 | IDE | Full |
-| <img src="docs/images/mascots/codebuddy.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/codebuddy.png" width="16"> CodeBuddy | 10 | APP/Terminal | Full |
-| | <img src="Sources/CodeIsland/Resources/cli-icons/kimi.png" width="16"> Kimi Code CLI | 10 | Terminal | Full |
-| <img src="docs/images/mascots/opencode.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/opencode.png" width="16"> OpenCode | All | APP/Terminal | Full |
-| <img src="docs/images/mascots/cline.gif" width="28"> | <img src="Sources/CodeIsland/Resources/cli-icons/cline.png" width="16"> Cline | 5 | VSCode | Full |
-| | <img src="Sources/CodeIsland/Resources/cli-icons/pi.png" width="16"> Pi / Oh My Pi | 8 | Terminal | Full |
+- 实时展示 Agent 会话状态、工具调用和最近消息。
+- 普通工具事件低干扰更新，不强制展开大面板。
+- 审批和问题事件可在小岛中处理。
+- 完成事件以轻量 completion 卡片预览展示。
+- 支持像素风 mascot 和 CLI 图标。
+- 支持一键跳回相关终端或工作区。
+- 支持系统托盘、设置页、诊断导出和 hook 安装/修复/卸载。
+- 支持可选 8-bit 事件音效。
+- Windows 版支持按 CLI 开关 hook 安装范围。
 
-## Installation
+## 支持的工具
 
-### Homebrew (Recommended)
+| 工具 | macOS | Windows | 说明 |
+| --- | --- | --- | --- |
+| Claude Code | 支持 | 支持 | hook、审批、会话状态 |
+| Codex | 支持 | 支持 | hook、会话状态、工具事件 |
+| Gemini CLI / Google Antigravity | 支持 | 支持 | hook、会话状态 |
+| Cursor | 支持 | 支持 | hook、IDE/窗口跳转基础能力 |
+| Trae / Trae CN | 支持 | 支持 | hook、会话状态 |
+| Qwen / Qoder | 支持 | 支持 | hook、会话状态 |
+| CodeBuddy / Factory / WorkBuddy 等 Claude-like 工具 | 支持 | 支持 | Windows 版按兼容配置路径安装 |
+| Copilot | 支持 | 支持 | hook 配置 |
+| Kimi | 支持 | 支持 | TOML hook 块 |
+| Cline | 支持 | 支持 | VS Code hooks 目录 |
+| OpenCode | 支持 | 支持 | Windows 插件会调用 `CodeIsland.Bridge.exe` |
+| Pi / OMP | 支持 | 支持 | Windows 扩展会调用 `CodeIsland.Bridge.exe` |
+
+## 快速开始
+
+### Windows 版
+
+已经构建好的 Windows 发布目录位于：
+
+```text
+windows\CodeIsland.Desktop\bin\Release\net8.0-windows\win-x64\publish\
+```
+
+直接运行：
+
+```powershell
+.\windows\CodeIsland.Desktop\bin\Release\net8.0-windows\win-x64\publish\CodeIsland.Desktop.exe
+```
+
+启动后，右下角会出现 CodeIsland 小岛，系统托盘也会出现 CodeIsland 图标。第一次使用建议打开小岛或托盘菜单，执行 `Install hooks`，把 bridge hook 安装到已检测到的 CLI 工具中。
+
+Windows 版的事件通道是：
+
+```text
+\\.\pipe\codeisland
+```
+
+### macOS 版
+
+Homebrew 安装：
 
 ```bash
 brew tap wxtsky/tap
 brew install --cask codeisland
 ```
 
-### Manual Download
+也可以从 Releases 下载 DMG，将 `CodeIsland.app` 拖入应用程序目录。
 
-1. Go to [Releases](https://github.com/wxtsky/CodeIsland/releases)
-2. Download `CodeIsland.dmg`
-3. Open the DMG and drag `CodeIsland.app` to your Applications folder
-4. Launch CodeIsland — it will automatically install hooks for all detected AI tools
+## 从源码构建
 
-> **Note:** On first launch, macOS may show a security warning. Go to **System Settings → Privacy & Security** and click **Open Anyway**.
+### Windows
 
-### iPhone & Apple Watch Buddy
+需要安装 .NET 8 SDK。
 
-Code Island Buddy is available on the App Store:
+构建可直接分发的 Windows 版本：
 
-[Download Code Island Buddy](https://apps.apple.com/us/app/code-island-buddy/id6773881129)
+```powershell
+dotnet publish windows\CodeIsland.Bridge\CodeIsland.Bridge.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 
-The iPhone app mirrors your Mac sessions to Dynamic Island, Lock Screen, StandBy, and Apple Watch. The Mac app publishes lightweight session snapshots over your local network while the iPhone app is open, and sends compact Bluetooth summaries for background refreshes such as Live Activities and Watch updates.
+dotnet publish windows\CodeIsland.Desktop\CodeIsland.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false
 
-Code Island Buddy is completely free and open source. It does not require an account or an external server; the companion source code lives in this repository under `ios/CodeIslandCompanion` and `apple-companion`.
+Copy-Item windows\CodeIsland.Bridge\bin\Release\net8.0-windows\win-x64\publish\CodeIsland.Bridge.exe windows\CodeIsland.Desktop\bin\Release\net8.0-windows\win-x64\publish\CodeIsland.Bridge.exe -Force
+```
 
-### Build from Source
+运行：
 
-Requires **macOS 14+** and **Swift 5.9+**.
+```powershell
+.\windows\CodeIsland.Desktop\bin\Release\net8.0-windows\win-x64\publish\CodeIsland.Desktop.exe
+```
+
+开发模式构建：
+
+```powershell
+dotnet build windows\CodeIsland.Desktop\CodeIsland.Desktop.csproj -v:minimal
+dotnet build windows\CodeIsland.Bridge\CodeIsland.Bridge.csproj -c Release -v:minimal
+```
+
+### macOS
+
+需要 macOS 14+ 和 Swift 5.9+。
 
 ```bash
-git clone https://github.com/wxtsky/CodeIsland.git
+git clone https://github.com/tangdan2204/CodeIsland.git
 cd CodeIsland
 
-# Development (debug build + launch; Buddy Bluetooth needs the .app below)
 swift build && ./.build/debug/CodeIsland
 
-# Release (universal binary: Apple Silicon + Intel)
 ./build.sh
 open .build/release/CodeIsland.app
 ```
 
-## How It Works
+## Windows 版说明
 
-```
-AI Tool (Claude/Codex/Gemini/Cursor/...)
-  → Hook event triggered
-    → codeisland-bridge (native Swift binary, ~86KB)
-      → Unix socket → /tmp/codeisland-<uid>.sock
-        → CodeIsland app receives event
-          → Updates UI in real time
-          → Optional local Buddy sync to iPhone / Apple Watch
+Windows 版主工程在：
+
+```text
+windows\CodeIsland.Desktop
 ```
 
-CodeIsland installs lightweight hooks into each AI tool's config. When the tool triggers an event (session start, tool call, permission request, etc.), the hook sends a JSON message through a Unix socket. CodeIsland listens on this socket and updates the notch panel instantly.
+Bridge 工程在：
 
-For **OpenCode**, a JS plugin connects directly to the socket — no bridge binary needed.
+```text
+windows\CodeIsland.Bridge
+```
 
-## Settings
+主要能力：
 
-CodeIsland provides a 7-tab settings panel:
+- WPF 顶层小岛窗口，默认右下角。
+- 系统托盘菜单：显示、安装 hooks、设置、导出诊断、退出。
+- named pipe server：`\\.\pipe\codeisland`。
+- bridge 日志：`%USERPROFILE%\.codeisland\bridge.log`。
+- 设置页：General、Behavior、Appearance、Shortcuts、CLIs、Mascots、Sound、Hooks、About。
+- completion 卡片：任务完成后轻量弹出，鼠标移入保留，离开后自动收起。
+- 普通事件智能抑制：普通工具事件只更新小岛，不展开大面板。
+- 审批/问题面板：支持 Allow Once、Always、Deny、Send 和问题输入框回车发送。
 
-- **General** — Language, launch at login, display selection
-- **Behavior** — Auto-hide, smart suppress, session cleanup
-- **Appearance** — Panel height, font size, AI reply lines
-- **Mascots** — Preview all pixel-art characters and their animations
-- **Sound** — 8-bit sound effects for session events
-- **Hooks** — View CLI installation status, reinstall or uninstall hooks
-- **About** — Version info and links
+## 工作原理
 
-## Requirements
+### macOS
 
-- macOS 14.0 (Sonoma) or later
-- Works best on MacBooks with a notch, but also works on external displays
+```text
+AI 工具
+  -> 触发 hook
+    -> codeisland-bridge
+      -> Unix socket /tmp/codeisland-<uid>.sock
+        -> CodeIsland 更新刘海小岛
+```
 
-## Acknowledgments
+### Windows
 
-This project was inspired by [claude-island](https://github.com/farouqaldori/claude-island) by [@farouqaldori](https://github.com/farouqaldori). Thanks for the original idea of bringing AI agent status into the macOS notch.
+```text
+AI 工具
+  -> 触发 hook
+    -> CodeIsland.Bridge.exe
+      -> named pipe \\.\pipe\codeisland
+        -> CodeIsland.Desktop 更新右下角小岛
+```
 
-## Star History
+## 验证
 
-<a href="https://www.star-history.com/?repos=wxtsky%2FCodeIsland&type=date&legend=bottom-right">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=wxtsky/CodeIsland&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=wxtsky/CodeIsland&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=wxtsky/CodeIsland&type=date&legend=top-left" />
- </picture>
-</a>
+Windows 版当前已通过以下基础验证：
 
-## License
+```powershell
+dotnet build windows\CodeIsland.Desktop\CodeIsland.Desktop.csproj -v:minimal
+dotnet build windows\CodeIsland.Desktop\CodeIsland.Desktop.csproj -c Release -v:minimal
+dotnet build windows\CodeIsland.Bridge\CodeIsland.Bridge.csproj -c Release -v:minimal
+```
 
-MIT License — see [LICENSE](LICENSE) for details.
+发布版 smoke 已验证：Desktop publish 版启动后，publish 目录中的 `CodeIsland.Bridge.exe` 可以向 Desktop 发送 `Stop` 事件，并在日志中显示 `connected` 和 `non-blocking sent`。
+
+## iPhone 与 Apple Watch Buddy
+
+Code Island Buddy 可将 Mac 会话状态同步到 iPhone 动态岛、锁屏、StandBy 和 Apple Watch。相关源码位于：
+
+```text
+ios\CodeIslandCompanion
+apple-companion
+```
+
+App Store：
+
+```text
+https://apps.apple.com/us/app/code-island-buddy/id6773881129
+```
+
+## 致谢
+
+本项目受到 `claude-island` 的启发，感谢原项目把 AI Agent 状态带入 macOS 刘海区域的创意。
+
+## 许可证
+
+MIT License，详见 [LICENSE](LICENSE)。

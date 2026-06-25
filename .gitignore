@@ -1,6 +1,11 @@
 # Build artifacts
 .build/
 .swiftpm/
+bin/
+obj/
+**/bin/
+**/obj/
+windows/bridge-out/
 
 # Superpowers artifacts
 .superpowers/

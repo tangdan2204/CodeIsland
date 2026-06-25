@@ -1,0 +1,331 @@
+<Window x:Class="CodeIsland.Desktop.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CodeIsland Settings"
+        Width="760"
+        Height="520"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="#10141C">
+    <Window.Resources>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,1,0,1" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="Foreground" Value="#AEB7C6" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="ItemRoot" Background="Transparent" CornerRadius="7" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemRoot" Property="Background" Value="#172033" />
+                                <Setter Property="Foreground" Value="#F3F6FA" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemRoot" Property="Background" Value="#111722" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#F3F6FA" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="0,3" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#0B0F16" />
+            <Setter Property="Foreground" Value="#F3F6FA" />
+            <Setter Property="BorderBrush" Value="#2A3446" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="7,4" />
+            <Setter Property="CaretBrush" Value="#F3F6FA" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#0B0F16" />
+            <Setter Property="Foreground" Value="#F3F6FA" />
+            <Setter Property="BorderBrush" Value="#2A3446" />
+            <Setter Property="Padding" Value="6,3" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#111722" />
+            <Setter Property="Foreground" Value="#F3F6FA" />
+            <Setter Property="BorderBrush" Value="#2A3446" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="SettingsCard" TargetType="Border">
+            <Setter Property="Background" Value="#090D14" />
+            <Setter Property="BorderBrush" Value="#1D2635" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#CCD4E0" />
+            <Setter Property="Width" Value="130" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style x:Key="CardTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#F3F6FA" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="CardSubtitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#7D8796" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Margin" Value="0,2,0,8" />
+        </Style>
+    </Window.Resources>
+    <Grid Background="#10141C">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#0B0F16" BorderBrush="#242A36" BorderThickness="0,0,1,0" Padding="16">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                    <Image Source="logo.png" Width="30" Height="30" Margin="0,0,9,0" />
+                    <StackPanel>
+                        <TextBlock Text="CodeIsland" Foreground="#F3F6FA" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="Windows" Foreground="#8D97A8" FontSize="11" />
+                    </StackPanel>
+                </StackPanel>
+                <ListBox x:Name="Tabs" SelectionChanged="Tabs_SelectionChanged" Background="Transparent" BorderThickness="0" Foreground="#F3F6FA">
+                    <ListBoxItem Content="General" IsSelected="True" />
+                    <ListBoxItem Content="Behavior" />
+                    <ListBoxItem Content="Appearance" />
+                    <ListBoxItem Content="Shortcuts" />
+                    <ListBoxItem Content="CLIs" />
+                    <ListBoxItem Content="Mascots" />
+                    <ListBoxItem Content="Sound" />
+                    <ListBoxItem Content="Hooks" />
+                    <ListBoxItem Content="About" />
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="22">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock x:Name="PageTitle" Text="General" Foreground="#F3F6FA" FontSize="22" FontWeight="SemiBold" />
+                <TextBlock x:Name="PageSubtitle" Text="Startup and panel defaults" Foreground="#8D97A8" FontSize="12" Margin="0,3,0,16" />
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <StackPanel x:Name="GeneralPage">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Startup" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Basic visibility and launch behavior" Style="{StaticResource CardSubtitle}" />
+                                <CheckBox x:Name="ShowWhenIdleCheck" Content="Show idle island when no sessions exist" />
+                                <CheckBox x:Name="LaunchAtLoginCheck" Content="Launch at Windows sign-in" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Default agent" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Used when incoming events do not identify a source" Style="{StaticResource CardSubtitle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Default source" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox x:Name="DefaultSourceCombo" Width="170">
+                                        <ComboBoxItem Content="codex" />
+                                        <ComboBoxItem Content="claude" />
+                                        <ComboBoxItem Content="gemini" />
+                                        <ComboBoxItem Content="cursor" />
+                                        <ComboBoxItem Content="qoder" />
+                                        <ComboBoxItem Content="opencode" />
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ShortcutsPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="Toggle island" Foreground="#F3F6FA" FontSize="12" FontWeight="SemiBold" />
+                                    <TextBlock Text="Open or collapse the panel" Foreground="#7D8796" FontSize="10" Margin="0,2,0,0" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="Ctrl+Shift+I" Foreground="#CCD4E0" FontFamily="Consolas" FontSize="11" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <StackPanel><TextBlock Text="Approval controls" Foreground="#F3F6FA" FontSize="12" FontWeight="SemiBold" /><TextBlock Text="Allow, always allow, deny, or skip" Foreground="#7D8796" FontSize="10" Margin="0,2,0,0" /></StackPanel>
+                                <TextBlock Grid.Column="1" Text="A / Y / D / S" Foreground="#CCD4E0" FontFamily="Consolas" FontSize="11" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <StackPanel><TextBlock Text="Jump to session" Foreground="#F3F6FA" FontSize="12" FontWeight="SemiBold" /><TextBlock Text="Bring the primary terminal window forward" Foreground="#7D8796" FontSize="10" Margin="0,2,0,0" /></StackPanel>
+                                <TextBlock Grid.Column="1" Text="Ctrl+Shift+J" Foreground="#CCD4E0" FontFamily="Consolas" FontSize="11" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ClisPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Hook coverage" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Install hooks only for selected agents" Style="{StaticResource CardSubtitle}" />
+                                <UniformGrid Columns="2">
+                                    <CheckBox x:Name="CliCodexCheck" Content="Codex" />
+                                    <CheckBox x:Name="CliClaudeCheck" Content="Claude" />
+                                    <CheckBox x:Name="CliGeminiCheck" Content="Gemini / Antigravity" />
+                                    <CheckBox x:Name="CliCursorCheck" Content="Cursor" />
+                                    <CheckBox x:Name="CliTraeCheck" Content="Trae" />
+                                    <CheckBox x:Name="CliQwenCheck" Content="Qwen" />
+                                    <CheckBox x:Name="CliQoderCheck" Content="Qoder" />
+                                    <CheckBox x:Name="CliOpenCodeCheck" Content="OpenCode" />
+                                    <CheckBox x:Name="CliPiCheck" Content="Pi" />
+                                    <CheckBox x:Name="CliOmpCheck" Content="OMP" />
+                                    <CheckBox x:Name="CliKimiCheck" Content="Kimi" />
+                                    <CheckBox x:Name="CliClineCheck" Content="Cline" />
+                                </UniformGrid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="BehaviorPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Expansion" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="When the island grows beyond compact mode" Style="{StaticResource CardSubtitle}" />
+                                <CheckBox x:Name="AutoCollapseCheck" Content="Auto-collapse after activity" />
+                                <CheckBox x:Name="CollapseOnMouseLeaveCheck" Content="Collapse expanded island on mouse leave" />
+                                <CheckBox x:Name="ExpandOnHoverCheck" Content="Expand island on hover" />
+                                <CheckBox x:Name="SmartSuppressCheck" Content="Smart suppress while session window is visible" />
+                                <CheckBox x:Name="AutoExpandCompletionCheck" Content="Auto-expand on completion" />
+                                <CheckBox x:Name="ExpandOnActivityCheck" Content="Expand panel for normal activity events" />
+                                <CheckBox x:Name="ExpandOnlyBlockingCheck" Content="Only expand for approval and questions" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Limits" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Keep the panel compact during normal work" Style="{StaticResource CardSubtitle}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,10">
+                                    <TextBlock Text="Collapse seconds" Style="{StaticResource FieldLabel}" />
+                                    <TextBox x:Name="AutoCollapseSecondsBox" Width="80" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Visible sessions" Style="{StaticResource FieldLabel}" />
+                                    <TextBox x:Name="MaxVisibleSessionsBox" Width="80" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="AppearancePage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Compact island" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Controls the everyday, low-interruption shape" Style="{StaticResource CardSubtitle}" />
+                                <CheckBox x:Name="ShowToolStatusCheck" Content="Show source, status, and tool text in compact island" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,10">
+                                    <TextBlock Text="Panel position" Style="{StaticResource FieldLabel}" />
+                                    <ComboBox x:Name="PanelPlacementCombo" Width="190">
+                                        <ComboBoxItem Content="Bottom right" Tag="BottomRight" />
+                                        <ComboBoxItem Content="Bottom center" Tag="BottomCenter" />
+                                        <ComboBoxItem Content="Bottom left" Tag="BottomLeft" />
+                                        <ComboBoxItem Content="Top center" Tag="TopCenter" />
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Island width" Style="{StaticResource FieldLabel}" />
+                                    <TextBox x:Name="CollapsedWidthScaleBox" Width="80" />
+                                    <TextBlock Text="%" Foreground="#8D97A8" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="mascots/codex.gif" Width="32" Height="32" Margin="0,0,10,0" />
+                                <StackPanel>
+                                    <TextBlock Text="Compact island preview" Foreground="#F3F6FA" FontSize="13" FontWeight="SemiBold" />
+                                    <TextBlock Text="codex  /  idle  /  CodeIsland" Foreground="#8D97A8" FontFamily="Consolas" FontSize="11" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <WrapPanel x:Name="MascotsPage" Visibility="Collapsed" ItemWidth="130" ItemHeight="92">
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/claude.gif" Width="42" Height="42" /><TextBlock Text="Claude" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/codex.gif" Width="42" Height="42" /><TextBlock Text="Codex" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/gemini.gif" Width="42" Height="42" /><TextBlock Text="Gemini" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/cursor.gif" Width="42" Height="42" /><TextBlock Text="Cursor" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/qoder.gif" Width="42" Height="42" /><TextBlock Text="Qoder" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                        <Border Style="{StaticResource SettingsCard}" Width="118"><StackPanel><Image Source="mascots/opencode.gif" Width="42" Height="42" /><TextBlock Text="OpenCode" Foreground="#CCD4E0" HorizontalAlignment="Center" /></StackPanel></Border>
+                    </WrapPanel>
+
+                    <StackPanel x:Name="SoundPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Event sounds" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Small audible feedback for blocking events" Style="{StaticResource CardSubtitle}" />
+                                <CheckBox x:Name="SoundEnabledCheck" Content="Enable 8-bit event sounds" />
+                                <Button Content="Play approval sound" Width="150" HorizontalAlignment="Left" Click="PlaySound_Click" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="HooksPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Installer" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="Writes the bridge command into supported agent hook configs" Style="{StaticResource CardSubtitle}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Button Content="Install / repair hooks" Width="160" HorizontalAlignment="Left" Click="InstallHooks_Click" Margin="0,0,8,0" />
+                                    <Button Content="Check status" Width="110" HorizontalAlignment="Left" Click="HookStatus_Click" Margin="0,0,8,0" />
+                                    <Button Content="Uninstall" Width="90" HorizontalAlignment="Left" Click="UninstallHooks_Click" />
+                                </StackPanel>
+                                <TextBox x:Name="HookStatusBox" MinHeight="190" IsReadOnly="True" TextWrapping="Wrap" Background="#0B0F16" Foreground="#CCD4E0" BorderBrush="#242A36" FontFamily="Consolas" FontSize="10" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel x:Name="AboutPage" Visibility="Collapsed">
+                        <Border Style="{StaticResource SettingsCard}">
+                            <StackPanel>
+                                <TextBlock Text="Diagnostics" Style="{StaticResource CardTitle}" />
+                                <TextBlock Text="CodeIsland for Windows restores the macOS session monitor workflow on Windows using a named pipe bridge, tray entry, approval controls, source icons, mascot animations, and local settings." Foreground="#CCD4E0" TextWrapping="Wrap" Margin="0,2,0,10" />
+                                <Button Content="Export diagnostics" Width="140" HorizontalAlignment="Left" Click="ExportDiagnostics_Click" />
+                                <TextBlock x:Name="DiagnosticsStatusText" Foreground="#8D97A8" TextWrapping="Wrap" Margin="0,8,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <TextBlock x:Name="SaveStatusText" Foreground="#8D97A8" VerticalAlignment="Center" Margin="0,0,12,0" />
+                <Button Content="Save" Width="86" Click="Save_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
